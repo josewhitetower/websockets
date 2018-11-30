@@ -14,7 +14,8 @@ const message = document.getElementById("message"),
 btn.addEventListener("click", () => {
   socket.emit("chat", {
     message: message.value,
-    handle: handle.value
+    handle: handle.value,
+    date: moment().format("HH:mm"),
   });
   message.value = "";
 });
@@ -22,7 +23,7 @@ btn.addEventListener("click", () => {
 //Listen for events
 
 socket.on("chat", data => {
-  output.innerHTML += `<p><strong>${data.handle}:</strong> ${data.message}</p>`;
+  output.innerHTML += `<p>${data.date} <strong>${data.handle}:</strong> ${data.message}</p>`;
 });
 
 let timeout;
