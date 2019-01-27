@@ -5,13 +5,14 @@ const socket = io.connect("http://" + window.location.hostname + ":4000");
 // Query DOM
 const message = document.getElementById("message"),
   handle = document.getElementById("handle"),
-  btn = document.getElementById("send"),
+  form = document.getElementById("form"),
   output = document.getElementById("output"),
   feedback = document.getElementById("feedback");
 
 //emit events
 
-btn.addEventListener("click", () => {
+form.addEventListener("submit", e => {
+  e.preventDefault();
   socket.emit("chat", {
     message: message.value,
     handle: handle.value
