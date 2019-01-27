@@ -1,17 +1,27 @@
 import React, { Component } from "react";
-import { connect, message } from "./api/api";
+import { connect, message, typing, chat } from "./api/api";
 
 class App extends Component {
   state = {
     message: "",
-    handle: "Jose"
+    handle: "Jose",
+    chats: []
   };
 
   componentDidMount() {
     connect();
+
+    chat(this.onChatCB);
   }
 
+  onChatCB = data => {
+    const chats = [...this.state.chats];
+    chats.push(data);
+    this.setState({ chats });
+  };
+
   handleOnChange = e => {
+    typing(this.state.handle);
     this.setState({ message: e.target.value });
   };
 
@@ -26,14 +36,22 @@ class App extends Component {
   };
 
   render() {
+    const chats = this.state.chats.map(chat => {
+      return (
+        <p key={Math.random()} className="p-2">
+          {chat.date}: <strong>{chat.handle}:</strong> {chat.message}
+        </p>
+      );
+    });
+
     return (
       <div
         id="mario-chat"
-        className="max-w-md mx-auto shadow mt-20 font-sans sm:px-5"
+        className="max-w-md mx-auto shadow mt-20 font-sans px-3 md:px-0 lg:px-0"
       >
         <form action="" id="form" onSubmit={this.handleSumbit} className="">
           <div id="chat-window" className="h-96 bg-grey-lighter">
-            <div id="output" />
+            <div id="output">{chats}</div>
             <div id="feedback" />
           </div>
           <input
