@@ -27,7 +27,7 @@ const typing = handle => {
   timeout = setTimeout(timeoutFunction, 2000);
 };
 
-const chat = cb => {
+const subscribe = cb => {
   socket.on("chat", data => {
     cb(data);
   });
@@ -37,4 +37,4 @@ const chat = cb => {
   });
 };
 
-export { connect, message, typing, chat };
+export { connect, message, typing, subscribe };

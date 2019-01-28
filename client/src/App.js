@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { connect, message, typing, chat } from "./api/api";
+import { connect, message, typing, subscribe } from "./api/api";
 
 class App extends Component {
   state = {
@@ -16,8 +15,7 @@ class App extends Component {
 
     connect();
 
-    chat(this.onChatCB);
-    console.log(this.refs);
+    subscribe(this.onSubscribe);
   }
 
   componentDidUpdate() {
@@ -32,7 +30,7 @@ class App extends Component {
     chatWindow.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
   };
 
-  onChatCB = data => {
+  onSubscribe = data => {
     if (data.message) {
       const chats = [...this.state.chats];
       chats.push(data);
