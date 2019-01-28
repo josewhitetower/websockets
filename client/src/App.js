@@ -5,7 +5,8 @@ class App extends Component {
   state = {
     message: "",
     handle: "Jose",
-    chats: []
+    chats: [],
+    feedback: ""
   };
 
   componentDidMount() {
@@ -15,9 +16,15 @@ class App extends Component {
   }
 
   onChatCB = data => {
-    const chats = [...this.state.chats];
-    chats.push(data);
-    this.setState({ chats });
+    if (data.message) {
+      const chats = [...this.state.chats];
+      chats.push(data);
+      this.setState({ chats });
+    } else if (data) {
+      this.setState({ feedback: data });
+    } else {
+      this.setState({ feedback: "" });
+    }
   };
 
   handleOnChange = e => {
@@ -52,7 +59,9 @@ class App extends Component {
         <form action="" id="form" onSubmit={this.handleSumbit} className="">
           <div id="chat-window" className="h-96 bg-grey-lighter">
             <div id="output">{chats}</div>
-            <div id="feedback" />
+            <div id="feedback">
+              {this.state.feedback ? `${this.state.feedback} is writing` : ""}
+            </div>
           </div>
           <input
             type="text"

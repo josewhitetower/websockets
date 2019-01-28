@@ -31,6 +31,10 @@ const chat = cb => {
   socket.on("chat", data => {
     cb(data);
   });
+
+  socket.on("typing", data => {
+    cb(data);
+  });
 };
 
 export { connect, message, typing, chat };
