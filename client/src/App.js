@@ -61,13 +61,15 @@ class App extends Component {
     const chats = this.state.chats.map(chat => {
       const className =
         chat.handle !== this.state.handle
-          ? "bg-blue-lighter flex flex-col mb-2 p-2 rounded-bl-none rounded-lg w-3/4"
-          : "bg-blue-light flex flex-col float-right mb-2 p-2 rounded-br-none rounded-lg w-3/4";
+          ? "bg-blue-lighter flex flex-col mb-2 p-1 rounded-bl-none rounded-lg w-3/4 shadow"
+          : "bg-grey-lighter flex flex-col float-right mb-2 p-1 rounded-br-none rounded-lg w-3/4 shadow";
       return (
         <div key={Math.random()} className={className}>
           <strong>{chat.handle}</strong>
-          <span className="mt-1">{chat.message}</span>
-          <span className="self-end text-xs">{chat.date}</span>
+          <p className="leading-normal mt-1 text-black text-sm">
+            {chat.message}
+          </p>
+          <span className="self-end text-xs text-grey-dark">{chat.date}</span>
         </div>
       );
     });
@@ -75,38 +77,48 @@ class App extends Component {
     return (
       <div
         id="mario-chat"
-        className="max-w-md mx-auto shadow mt-20 font-sans px-3 md:px-0 lg:px-0"
+        className="max-w-md mx-auto shadow font-sans flex flex-col justify-end mt-5"
       >
-        <div id="feedback" className="h-10">
-          {this.state.feedback ? `${this.state.feedback} is writing` : ""}
+        <div
+          id="feedback"
+          className="h-12 bg-blue text-white flex items-center p-1"
+        >
+          <span className="roman h-10 w-10 rounded-full bg-red inline-flex items-center justify-center uppercase">
+            <span>{this.state.handle[0]}</span>
+          </span>
+          <p className="italic ml-4">
+            {this.state.feedback ? `${this.state.feedback} is writing...` : ""}
+          </p>
+        </div>
+        <div
+          id="chat-window"
+          className="p-1 overflow-auto flex-1 bg-green-lightest min-h-screen-7"
+          ref="chatWindow"
+        >
+          <div id="output">{chats}</div>
         </div>
         <form
           action=""
           id="form"
           onSubmit={this.handleSumbit}
-          className="bg-grey-lighter"
+          className="bg-green-lightest"
         >
-          <div
-            id="chat-window"
-            className="h-96 bg-grey-lighter p-2 overflow-auto"
-            ref="chatWindow"
-          >
-            <div id="output">{chats}</div>
+          <div className="flex items-center px-2 pb-2">
+            <textarea
+              type="text"
+              id="message"
+              placeholder="Message"
+              className="w-5/6 py-2 px-5 border rounded-full mt-2 focus:outline-none mr-2"
+              onChange={this.handleOnChange}
+              value={this.state.message}
+            />
+            <button
+              id="send"
+              className="w-1/6 bg-blue-dark flex-no-shrink font-bold h-10 rounded-sm text-center text-white focus:outline-none"
+            >
+              ➭
+            </button>
           </div>
-          <input
-            type="text"
-            id="message"
-            placeholder="Message"
-            className="block w-full py-5 px-8 border rounded-full mt-2 focus:outline-none "
-            onChange={this.handleOnChange}
-            value={this.state.message}
-          />
-          <button
-            id="send"
-            className="text-center h-12 text-white w-full bg-blue-dark font-bold rounded-sm"
-          >
-            Send
-          </button>
         </form>
       </div>
     );
