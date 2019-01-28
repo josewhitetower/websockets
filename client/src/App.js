@@ -4,12 +4,15 @@ import { connect, message, typing, chat } from "./api/api";
 class App extends Component {
   state = {
     message: "",
-    handle: "Jose",
+    handle: "",
     chats: [],
     feedback: ""
   };
 
   componentDidMount() {
+    const { handle } = this.props.match.params;
+    this.setState({ handle });
+
     connect();
 
     chat(this.onChatCB);
