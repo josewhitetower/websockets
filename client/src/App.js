@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import { connect, message, typing, chat } from "./api/api";
 
 class App extends Component {
@@ -16,7 +17,20 @@ class App extends Component {
     connect();
 
     chat(this.onChatCB);
+    console.log(this.refs);
   }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    const { chatWindow } = this.refs;
+    const scrollHeight = chatWindow.scrollHeight;
+    const height = chatWindow.clientHeight;
+    const maxScrollTop = scrollHeight - height;
+    chatWindow.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  };
 
   onChatCB = data => {
     if (data.message) {
@@ -74,7 +88,11 @@ class App extends Component {
           onSubmit={this.handleSumbit}
           className="bg-grey-lighter"
         >
-          <div id="chat-window" className="h-96 bg-grey-lighter p-2">
+          <div
+            id="chat-window"
+            className="h-96 bg-grey-lighter p-2 overflow-auto"
+            ref="chatWindow"
+          >
             <div id="output">{chats}</div>
           </div>
           <input
