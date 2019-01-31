@@ -1,25 +1,53 @@
 import React, { Component } from "react";
-import { connect, message, typing, subscribe } from "./api/api";
+import {
+  connect,
+  message,
+  typing,
+  subscribe,
+  join,
+  leave,
+  disconnect
+} from "./api/api";
 
 class App extends Component {
   state = {
     message: "",
     handle: "",
     chats: [],
-    feedback: ""
+    feedback: "",
+    users: []
+  };
+  // Things to do before unloading/closing the tab
+  doSomethingBeforeUnload = () => {
+    leave(this.state.handle);
+  };
+
+  // Setup the `beforeunload` event listener
+  setupBeforeUnloadListener = () => {
+    window.addEventListener("beforeunload", ev => {
+      ev.preventDefault();
+      return this.doSomethingBeforeUnload();
+    });
   };
 
   componentDidMount() {
+    // Activate the event listener
+    this.setupBeforeUnloadListener();
     const { handle } = this.props.match.params;
     this.setState({ handle });
 
     connect();
-
+    join(handle);
     subscribe(this.onSubscribe);
   }
 
   componentDidUpdate() {
     this.scrollToBottom();
+  }
+
+  componentWillUnmount() {
+    leave(this.state.handle);
+    disconnect();
   }
 
   scrollToBottom = () => {
@@ -31,10 +59,12 @@ class App extends Component {
   };
 
   onSubscribe = data => {
-    if (data.message) {
+    if (data.action === "chat") {
       const chats = [...this.state.chats];
       chats.push(data);
       this.setState({ chats });
+    } else if (data.new || data.old) {
+      this.setState({ users: data.users });
     } else if (data) {
       this.setState({ feedback: data });
     } else {
@@ -87,7 +117,9 @@ class App extends Component {
             <span>{this.state.handle[0]}</span>
           </span>
           <p className="italic ml-4">
-            {this.state.feedback ? `${this.state.feedback} is writing...` : ""}
+            {this.state.feedback.handle
+              ? `${this.state.feedback.handle} is writing...`
+              : `${this.state.users.length} users online`}
           </p>
         </div>
         <div

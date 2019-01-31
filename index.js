@@ -19,8 +19,28 @@ app.use(express.static("public"));
 
 const io = socket(server);
 
+let users = [];
+
 io.on("connection", socket => {
   console.log("made socket connection", socket.id);
+
+  socket.on("join", data => {
+    users.push(data);
+
+    io.sockets.emit("join", {
+      new: data.handle,
+      users
+    });
+  });
+
+  socket.on("leave", data => {
+    console.log("leave", data);
+    users = users.filter(user => user.handle !== data.handle);
+    io.sockets.emit("leave", {
+      old: data.handle,
+      users
+    });
+  });
 
   socket.on("chat", data => {
     console.log(data);
