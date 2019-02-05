@@ -34,7 +34,6 @@ io.on("connection", socket => {
   });
 
   socket.on("leave", data => {
-    console.log("leave", data);
     users = users.filter(user => user.handle !== data.handle);
     io.sockets.emit("leave", {
       old: data.handle,
@@ -43,12 +42,10 @@ io.on("connection", socket => {
   });
 
   socket.on("chat", data => {
-    console.log(data);
     io.sockets.emit("chat", data); // send data to all sockets
   });
 
   socket.on("typing", data => {
-    console.log("object");
     socket.broadcast.emit("typing", data);
   });
 });
