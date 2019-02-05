@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { setUser } from "./store/actions/userActions";
+import { setUser } from './store/actions/userActions';
 
-import { message, typing, subscribe, leave, disconnect } from "./api/api";
+import { message, typing, subscribe, leave, disconnect } from './api/api';
 
 class App extends Component {
   state = {
-    message: "",
+    message: '',
     chats: [],
-    feedback: "",
+    feedback: '',
     users: []
   };
   // Things to do before unloading/closing the tab
@@ -19,7 +19,7 @@ class App extends Component {
 
   // Setup the `beforeunload` event listener
   setupBeforeUnloadListener = () => {
-    window.addEventListener("beforeunload", ev => {
+    window.addEventListener('beforeunload', ev => {
       ev.preventDefault();
       return this.doSomethingBeforeUnload();
     });
@@ -53,7 +53,7 @@ class App extends Component {
   };
 
   onSubscribe = data => {
-    if (data.action === "chat") {
+    if (data.action === 'chat') {
       const chats = [...this.state.chats];
       chats.push(data);
       this.setState({ chats });
@@ -62,7 +62,7 @@ class App extends Component {
     } else if (data) {
       this.setState({ feedback: data });
     } else {
-      this.setState({ feedback: "" });
+      this.setState({ feedback: '' });
     }
   };
 
@@ -75,9 +75,9 @@ class App extends Component {
     e.preventDefault();
     if (this.state.message) {
       message(this.state.message, this.props.user.handle);
-      this.setState({ message: "" });
+      this.setState({ message: '' });
     } else {
-      alert("empty");
+      alert('empty');
     }
   };
 
@@ -85,8 +85,8 @@ class App extends Component {
     const chats = this.state.chats.map(chat => {
       const className =
         chat.handle !== this.props.user.handle
-          ? "bg-blue-lighter flex flex-col mb-2 p-1 rounded-bl-none rounded-lg w-3/4 shadow"
-          : "bg-grey-lighter flex flex-col float-right mb-2 p-1 rounded-br-none rounded-lg w-3/4 shadow";
+          ? 'bg-blue-lighter flex flex-col mb-2 p-1 rounded-bl-none rounded-lg w-3/4 shadow'
+          : 'bg-grey-lighter flex flex-col float-right mb-2 p-1 rounded-br-none rounded-lg w-3/4 shadow';
       return (
         <div key={Math.random()} className={className}>
           <strong>{chat.handle}</strong>
