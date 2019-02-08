@@ -26,10 +26,10 @@ const leave = handle => {
   });
 };
 
-const message = (message, handle) => {
+const message = (message, user) => {
   socket.emit('chat', {
     message,
-    handle,
+    user,
     date: moment().format('HH:mm'),
     action: 'chat'
   });

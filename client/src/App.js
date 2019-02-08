@@ -87,7 +87,7 @@ class App extends Component {
   handleSumbit = e => {
     e.preventDefault();
     if (this.state.message) {
-      message(this.state.message, this.props.user.handle);
+      message(this.state.message, this.props.user.user);
       this.setState({ message: '' });
     } else {
       alert('empty');
@@ -97,7 +97,7 @@ class App extends Component {
   render() {
     const chats = this.state.chats.map(chat => {
       const className =
-        chat.handle !== this.props.user.handle
+        chat.user.id !== this.props.user.user.id
           ? 'bg-blue-lighter flex flex-col mb-2 p-1 rounded-bl-none rounded-lg w-3/4 shadow'
           : 'bg-grey-lighter flex flex-col float-right mb-2 p-1 rounded-br-none rounded-lg w-3/4 shadow';
       return (
