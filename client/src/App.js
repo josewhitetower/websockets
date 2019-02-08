@@ -12,6 +12,15 @@ class App extends Component {
     feedback: '',
     users: []
   };
+
+  uuidv4 = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  };
+
   // Things to do before unloading/closing the tab
   doSomethingBeforeUnload = () => {
     leave(this.props.user.handle);
@@ -29,9 +38,13 @@ class App extends Component {
     // Activate the event listener
     this.setupBeforeUnloadListener();
     const { handle } = this.props.match.params;
+    const user = {
+      handle,
+      id: this.uuidv4()
+    };
 
     //join(handle);
-    this.props.setUser(handle);
+    this.props.setUser(user);
     subscribe(this.onSubscribe);
   }
 
@@ -108,7 +121,9 @@ class App extends Component {
           className="h-12 bg-blue text-white flex items-center p-1"
         >
           <span className="roman h-10 w-10 rounded-full bg-red inline-flex items-center justify-center uppercase">
-            <span>{this.props.user.handle && this.props.user.handle[0]}</span>
+            <span>
+              {this.props.user.user && this.props.user.user.handle[0]}
+            </span>
           </span>
           <p className="italic ml-4">
             {this.state.feedback.handle

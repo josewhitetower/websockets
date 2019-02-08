@@ -1,5 +1,5 @@
 const initState = {
-  handle: null
+  user: null
 };
 
 const userReducer = (state = initState, action) => {
@@ -7,7 +7,7 @@ const userReducer = (state = initState, action) => {
   case 'SET_USER':
     return {
       ...state,
-      handle: action.user
+      user: action.user
     };
 
   default:
