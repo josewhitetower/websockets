@@ -80,7 +80,7 @@ class App extends Component {
   };
 
   handleOnChange = e => {
-    typing(this.props.user.handle);
+    typing(this.props.user.user.handle);
     this.setState({ message: e.target.value });
   };
 
@@ -102,7 +102,7 @@ class App extends Component {
           : 'bg-grey-lighter flex flex-col float-right mb-2 p-1 rounded-br-none rounded-lg w-3/4 shadow';
       return (
         <div key={Math.random()} className={className}>
-          <strong>{chat.handle}</strong>
+          <strong>{chat.user.handle}</strong>
           <p className="leading-normal mt-1 text-black text-sm">
             {chat.message}
           </p>

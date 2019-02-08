@@ -26,9 +26,8 @@ io.on("connection", socket => {
 
   socket.on("join", data => {
     users.push(data);
-
     io.sockets.emit("join", {
-      new: data.handle,
+      new: data.user.handle,
       users
     });
   });

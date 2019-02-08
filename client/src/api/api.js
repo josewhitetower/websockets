@@ -14,6 +14,7 @@ const connect = () => {
 };
 
 const join = user => {
+  console.log('join');
   socket.emit('join', {
     user,
     action: 'join'
