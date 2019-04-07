@@ -22,7 +22,7 @@ const io = socket(server);
 let users = [];
 
 io.on("connection", socket => {
-  console.log("made socket connection", socket.id);
+  console.log("made socket connection", socket.id, users);
 
   socket.on("join", data => {
     users.push(data);
@@ -30,9 +30,11 @@ io.on("connection", socket => {
       new: data.user.handle,
       users
     });
+    console.log("joins", users);
   });
 
   socket.on("leave", data => {
+    console.log("leaves", users);
     users = users.filter(user => user.handle !== data.handle);
     io.sockets.emit("leave", {
       old: data.handle,
@@ -46,5 +48,6 @@ io.on("connection", socket => {
 
   socket.on("typing", data => {
     socket.broadcast.emit("typing", data);
+    console.log(users);
   });
 });

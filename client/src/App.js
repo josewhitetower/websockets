@@ -16,7 +16,7 @@ class App extends Component {
   uuidv4 = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
+        v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
   };
@@ -118,9 +118,9 @@ class App extends Component {
       >
         <div
           id="feedback"
-          className="h-12 bg-blue text-white flex items-center p-1"
+          className="h-24 bg-blue text-white flex items-center p-1"
         >
-          <span className="roman h-10 w-10 rounded-full bg-red inline-flex items-center justify-center uppercase">
+          <span className="roman h-10 w-10 rounded-full bg-red inline-flex items-center justify-center uppercase ml-5">
             <span>
               {this.props.user.user && this.props.user.user.handle[0]}
             </span>
@@ -128,7 +128,7 @@ class App extends Component {
           <p className="italic ml-4">
             {this.state.feedback.handle
               ? `${this.state.feedback.handle} is writing...`
-              : `${this.state.users.length} users online`}
+              : '0 users online'}
           </p>
         </div>
         <div
